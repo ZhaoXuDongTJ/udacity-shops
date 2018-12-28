@@ -1,0 +1,10 @@
+{
+	"miniprogramRoot": "./client",
+	"qcloudRoot": "./server",
+	"setting": {
+		"newFeature": true
+	},
+	"appid": "wx7f76b50d81c2d853",
+	"projectname": "wxnd-re-movie",
+	"condition": {}
+}
