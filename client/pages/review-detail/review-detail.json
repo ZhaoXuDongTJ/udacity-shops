@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "影评详情",
-  "usingComponents": {
-    "review-card": "/components/review-card/review-card",
-    "voice-block": "/components/voice-block/voice-block"
-  }
-}

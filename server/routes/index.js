@@ -20,6 +20,8 @@ router.get('/user', validationMiddleware, controllers.user)
 // 图片上传接口，小程序端可以直接将 url 填入 wx.uploadFile 中
 router.post('/upload', controllers.upload)
 
+router.post('/uploadaudio', controllers.upload)
+
 // --- 信道服务接口 Demo --- //
 // GET  用来响应请求信道地址的
 router.get('/tunnel', controllers.tunnel.get)
@@ -32,24 +34,19 @@ router.get('/message', controllers.message.get)
 // POST 用来处理微信转发过来的客服消息
 router.post('/message', controllers.message.post)
 
-// GET 用来响应 URL： /movies 
-router.get('/movies', controllers.movies.list)
+//获取热门电影列表
+router.get('/movies', controllers.movies.movieList)
 
-// GET 用来响应 URL：/movie?movie_id=movie_id
-router.get('/movie', controllers.movies.movie)
+//上传影评
+router.put('/review', validationMiddleware, controllers.review.add)
 
-// GET 用来响应 URL：/reviews?movie_id=movie_id
-router.get('/reviews', controllers.reviews.list)
+//获取影评列表
+router.get('/review', controllers.review.reviewList)
 
-// GET 用来响应 URL: /reviews/all
-router.get('/reviews/all', controllers.reviews.all)
+//上传收藏的影评
+router.put('/collectedReview', validationMiddleware, controllers.collectedReview.collect)
 
-router.post('/reviews/add', validationMiddleware, controllers.reviews.add)
-
-// 用来响应 URL ： /reviews/favour?review_id=review_id
-router.get('/reviews/favour', validationMiddleware, controllers.reviews.favour)
-
-router.get('/reviews/allFavour', validationMiddleware, controllers.reviews.allFavour)
-router.get('/reviews/mine', validationMiddleware, controllers.reviews.mine)
+//获取收藏的影片列表
+router.get('/collectedReview', validationMiddleware, controllers.collectedReview.collectedReviewList)
 
 module.exports = router

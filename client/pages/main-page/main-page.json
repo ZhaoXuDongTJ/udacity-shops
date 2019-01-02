@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "看看侃侃电影",
-  "usingComponents": {
-    "person-info": "/components/person-info/person-info"
-  }
-}

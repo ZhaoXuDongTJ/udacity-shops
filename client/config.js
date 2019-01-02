@@ -3,7 +3,7 @@
  */
 
 // 此处主机域名修改成腾讯云解决方案分配的域名
-var host = 'https://kt92y4yu.qcloud.la';
+var host = 'https://ydzdhzct.qcloud.la';
 
 var config = {
 
@@ -22,33 +22,27 @@ var config = {
 
         // 上传图片接口
         uploadUrl: `${host}/weapp/upload`,
-        
-        //获取对应电影的影评：reviews?movie_id=''
-        reviewsUrl: `${host}/weapp/reviews?movie_id=`,
+
+        uploadAudio: `${host}/weapp/uploadaudio`,
+
+        //获取热门电影列表
+        movieList: `${host}/weapp/movies`,
+
+        // 拉取用户信息
+        user: `${host}/weapp/user`,
 
         //上传影评
-        addReviewsUrl: `${host}/weapp/reviews/add`,
+        uploadReview: `${host}/weapp/review`,
 
-        //热门电影
-        hotMoviesUrl: `${host}/weapp/movies`,
+        //获取影评列表
+        reviewList: `${host}/weapp/review`,
 
-        //所有影评
-        allReviewsUrl: `${host}/weapp/reviews/all`,
+        //上传收藏影评
+        collectReview: `${host}/weapp/collectedReview`,
 
-        //取一部电影
-        movie: `${host}/weapp/movie?movie_id=`,
+        //获取收藏影评列表
+        collectedReviewList: `${host}/weapp/collectedReview`,
 
-        //收藏一条评论
-        favourReviewUrl: `${host}/weapp/reviews/favour?review_id=`,
-
-        //取出所有评论
-        allFavourUrl: `${host}/weapp/reviews/allFavour`,
-
-        //音频 url
-        mp3Host: `https://voice-1257004793.cos.ap-guangzhou.myqcloud.com/`,
-
-        //取出所有我的评论
-        mineReviewsUrl: `${host}/weapp/reviews/mine`
     }
 };
 

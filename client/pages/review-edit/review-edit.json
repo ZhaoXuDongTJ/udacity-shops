@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "编辑影评",
-  "usingComponents": {
-      "movie-card": "/components/movie-card/movie-card"
-  }
-}

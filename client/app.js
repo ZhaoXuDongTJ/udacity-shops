@@ -1,25 +1,52 @@
 //app.js
 var qcloud = require('./vendor/wafer2-client-sdk/index')
 var config = require('./config')
-var cacheUserInfo
+
+let userInfo
 
 App({
     onLaunch: function () {
         qcloud.setLoginUrl(config.service.loginUrl)
     },
+    login({ success, error }) {
+      wx.getSetting({
+        success: res => {
+          if (res.authSetting['scope.userInfo'] === false) {
+            // 已拒绝授权
+            wx.showModal({
+              title: '提示',
+              content: '请授权我们获取您的用户信息',
+              showCancel: false,
+              success: () => {
+                wx.openSetting({
+                  success: res => {
+                    if (res.authSetting['scope.userInfo'] === true) {
+                      this.doQcloudLogin({ success, error })
+                    }
+                  }
+                })
+              }
+            })
+          } else {
+            this.doQcloudLogin({ success, error })
+          }
+        }
+      })
+    },
+    doQcloudLogin({ success, error }) {
+      // 调用 qcloud 登陆接口
+      qcloud.login({
+        success: result => {
+          if (result) {
+            userInfo = result
 
-    checkSession({ success, error }) {
-      //已经有缓存，直接返回
-      if (cacheUserInfo) {
-        success && success({
-           userInfo: cacheUserInfo
-        }) 
-        return
-      }
-
-      wx.checkSession({
-        success: () => {
-          this.getUserInfo({ success, error })
+            success && success({
+              userInfo
+            })
+          } else {
+            // 如果不是首次登录，不会返回用户信息，请求用户信息接口获取
+            this.getUserInfo({ success, error })
+          }
         },
         fail: () => {
           error && error()
@@ -27,52 +54,61 @@ App({
       })
     },
 
-    doQcloudLogin({ success, error }) {
-      qcloud.login({
-        success: result => {
-          if (result) {
-            let userInfo= result
-            cacheUserInfo = userInfo //缓存
-            success && success({
-              userInfo
-            })
-          }
-        },
-        fail: result => {
-          //如果不是首次登陆，是不会返回用户数据，所以要进行请求
-          this.getUserInfo({success, error})
-        }
-      })
-    },
-
     getUserInfo({ success, error }) {
-
-      //已经有缓存，直接返回
-      if (cacheUserInfo) {
-        success && success({
-           userInfo: cacheUserInfo
-        }) 
-        return
-      }
+      if (userInfo) return userInfo
 
       qcloud.request({
-        url: config.service.requestUrl,
-        login:true,
+        url: config.service.user,
+        login: true,
         success: result => {
           let data = result.data
 
           if (!data.code) {
-            let userInfo= data.data
+            userInfo = data.data
 
-            cacheUserInfo = userInfo //缓存
             success && success({
               userInfo
             })
           } else {
             error && error()
           }
-        }, 
+        },
         fail: () => {
+          error && error()
+        }
+      })
+    },
+
+    checkSession({ success, error }) {
+      wx.showLoading({
+        title: '数据载入中',
+      })
+      if (userInfo) {
+        wx.hideLoading()
+        return success && success({
+          userInfo
+        })
+      }
+      
+      wx.checkSession({
+        success: () => {
+          this.getUserInfo({
+            success: res => {
+              wx.hideLoading()
+              userInfo = res.userInfo
+
+              success && success({
+                userInfo
+              })
+            },
+            fail: () => {
+              wx.hideLoading()
+              error && error()
+            }
+          })
+        },
+        fail: () => {
+          wx.hideLoading()
           error && error()
         }
       })

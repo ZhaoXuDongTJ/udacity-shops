@@ -1,5 +1,0 @@
-<!--components/person-info/person-info.wxml-->
-<view class="person-info">
-  <image mode='aspectFill' class='movie-image' src="{{ imageUrl }}"></image>
-  <text class='name'>{{ name }}</text>
-</view>

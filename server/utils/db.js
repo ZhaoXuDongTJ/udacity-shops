@@ -4,7 +4,7 @@ const config = require('../config').mysql
 var pool = null
 
 /**
- * 初始化连接池。
+ * 鍒濆鍖栬繛鎺ユ睜
  */
 function initMysqlPool() {
   pool = mysql.createPool({
@@ -19,10 +19,10 @@ function initMysqlPool() {
 
 module.exports = {
   /**
-   * 执行sql查询
+   * 鎵цsql鏌ヨ
    */
   query(sql, sqlParam, connection) {
-    // 打印sql语句
+    // 鎵撳嵃sql璇彞
     return new Promise((resolve, reject) => {
       if (connection) {
         connection.query(sql, sqlParam, (err, rows) => {
